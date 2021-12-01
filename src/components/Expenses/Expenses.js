@@ -7,21 +7,20 @@ import './Expenses.css';
 
 const Expenses = ({expenses}) => {
 
-    const [yearFilter, setYearFilter] = useState('');
+    const [yearFilter, setYearFilter] = useState('2021');
 
-    const yearFilterHandler = (year) => {
-        console.log('this is from Expenses.js');
-        setYearFilter(year);
+    const yearFilterHandler = (selectedYear) => {
+        setYearFilter(selectedYear);
     };
-    
-    console.log(yearFilter);
+
+    const filteredExpenses = expenses.filter( expense => 
+        expense.date.getFullYear().toString() === yearFilter 
+    );
 
     return (
     <Card className="expenses">
-        <ExpensesFilter onYearFilter={yearFilterHandler}/>
-        <ExpenseItem expenses={expenses[0]}/>
-        <ExpenseItem expenses={expenses[1]}/>
-        <ExpenseItem expenses={expenses[2]}/>
+        <ExpensesFilter selectedYear={yearFilter} onYearFilter={yearFilterHandler}/>
+        {filteredExpenses.map( expense => <ExpenseItem key={expense.id} expenses={expense} /> ) }
     </Card>
 
     );
